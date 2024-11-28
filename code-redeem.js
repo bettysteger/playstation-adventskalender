@@ -2,7 +2,8 @@ async function redeemCodes() {
   let codes = window.prompt('Paste the codes here');
   if (!codes || !codes.length) { return; }
 
-  codes = codes.split(/\s+/);
+  const re = /^[A-Z0-9]{3}-[A-Z0-9]{3}-[A-Z0-9]{3}$/; // XXX-XXX-XXX
+  codes = codes.split(/\s+/).filter(code => re.test(code));
   if (!codes.length) { return; }
 
   for (const code of codes) {
