@@ -7,12 +7,15 @@ async function redeemCodes() {
   if (!codes.length) { return; }
 
   for (const code of codes) {
-    const menuBtn = document.querySelector('button[aria-label="Code einlösen"]');
-    if (!menuBtn.attributes['aria-describedby']) {
+    let menuBtn = document.querySelector('button[aria-label="Code einlösen"]');
+    if (!menuBtn) { // mobile
+      document.querySelector('a[data-href="redeem-code"]').click();
+    } else if (!menuBtn.attributes['aria-describedby']) {
       menuBtn.click();
       await new Promise(resolve => setTimeout(resolve, 100));
     }
-    document.getElementById('form-code-input').value = code;
+    const codeInput = document.getElementById('form-code-input') || document.getElementById('redeem-code-input');
+    codeInput.value = code;
     document.querySelector('button[type="submit"][data-mn="redeem code"]').click();
     await new Promise(resolve => setTimeout(resolve, 1000));
   }
