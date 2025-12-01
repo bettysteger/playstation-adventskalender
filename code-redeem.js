@@ -6,12 +6,12 @@ async function redeemCodes() {
   codes = codes.split(/\s+/).filter(code => re.test(code));
   if (!codes.length) { return; }
 
+  const codeInput = document.querySelector('input[name="code"]');
+  const btn = codeInput.form.querySelector('button');
+  
   for (const code of codes) {
-    const codeInput = document.querySelector('input[name="code"]');
-    codeInput.value = code;
-    codeInput.dispatchEvent(new Event('change'));
-    const btn = codeInput.form.querySelector('button');
-    btn.disabled = false;
+    codeInput.select();
+    document.execCommand('insertText', false, code);
     btn.click();
     await new Promise(resolve => setTimeout(resolve, 1000));
   }
